@@ -413,6 +413,7 @@ jobs:
           PY
 
   publish-maven-central:
+    if: vars.PUBLISH_CENTRAL == 'true'
     needs: [validate, verify-release-version]
     runs-on: ubuntu-latest
     permissions:
