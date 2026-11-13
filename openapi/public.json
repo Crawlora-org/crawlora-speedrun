@@ -1,0 +1,2018 @@
+{
+  "basePath": "/api/v1",
+  "definitions": {
+    "app.Response": {
+      "description": "The Response struct is used for wrapping the API response with a code, message, and data.",
+      "properties": {
+        "code": {
+          "description": "Code is the HTTP status code or a custom code used to indicate the result of the request\n@example 200",
+          "type": "integer"
+        },
+        "data": {
+          "description": "Data is the response data (can be any object or null)\n@example {\"id\": 1, \"name\": \"John Doe\"}"
+        },
+        "msg": {
+          "description": "Msg is the message that describes the result of the request\n@example \"Request successful\""
+        }
+      },
+      "type": "object"
+    },
+    "speedrun.OptionsResponseDoc": {
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
+        "data": {
+          "additionalProperties": {
+            "$ref": "#/definitions/speedrun.ResourceOption"
+          },
+          "type": "object"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "speedrun.ResourceOption": {
+      "properties": {
+        "catalog_paths": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "directions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "embeds": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "orderby": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "timing": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "speedrun.ResponseDoc": {
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
+        "data": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "speedrun.RunOptionsResponseDoc": {
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
+        "data": {
+          "$ref": "#/definitions/speedrun.RunResourceOptions"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "speedrun.RunResourceOptions": {
+      "properties": {
+        "catalog_paths": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "directions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "embeds": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "orderby": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "statuses": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "host": "api.crawlora.net",
+  "info": {
+    "contact": {
+      "email": "support@crawlora.net",
+      "name": "API Support",
+      "url": "https://crawlora.net"
+    },
+    "description": "Crawlora is a hosted web-data and SERP API: call documented REST endpoints and get normalized JSON instead of HTML to parse — across search/SERP, maps and local, e-commerce, app stores, social, media and finance. One API key; Crawlora runs the proxy rotation, headless browsers and parsing behind the scenes. Billed pay-on-success: charged only on a successful 2xx response, 1-10 credits per call, with a free tier of 2,000 credits per month and no card. A hosted MCP server (mcp.crawlora.net/mcp) exposes the same catalog as agent tools. Search endpoints accept `q` as a universal alias for whichever search-term parameter they document (`query`, `term`, `keyword`, or Amazon's `k`), so one parameter name works across the whole catalog; an explicitly supplied documented name always wins.",
+    "license": {
+      "name": "Crawlora Terms of Service",
+      "url": "https://crawlora.net/terms"
+    },
+    "termsOfService": "https://crawlora.net/terms",
+    "title": "Crawlora API",
+    "version": "1.2",
+    "x-logo": {
+      "altText": "Crawlora",
+      "backgroundColor": "#FFFFFF",
+      "url": "https://raw.githubusercontent.com/Crawlora-org/crawlora-mcp/main/assets/logo-400x400.png"
+    }
+  },
+  "paths": {
+    "/speedrun/catalogs/{kind}": {
+      "get": {
+        "description": "Reads anonymous Speedrun.com v1 metadata and preserves native opaque identifiers, run context and pagination. Source attribution: Speedrun.com.",
+        "operationId": "speedrun-catalog",
+        "parameters": [
+          {
+            "description": "Native metadata collection",
+            "enum": [
+              "platforms",
+              "regions",
+              "gametypes",
+              "developers",
+              "publishers",
+              "genres",
+              "engines"
+            ],
+            "in": "path",
+            "name": "kind",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Native page size from 1 to 200",
+            "in": "query",
+            "name": "max",
+            "type": "integer"
+          },
+          {
+            "description": "Native zero-based result offset",
+            "in": "query",
+            "name": "offset",
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Discover Speedrun.com filter catalogs",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/categories/{id}": {
+      "get": {
+        "description": "Returns complete native category detail and context. Use game/category/level discovery IDs, not mutable abbreviations. Metadata embeds preserve their native wrappers; account/profile embeds are excluded. Records count places and preserve ties, empty boards and native pagination. Variable resources return every applicable value and its source scope.",
+        "operationId": "speedrun-category-detail",
+        "parameters": [
+          {
+            "description": "Native category ID, opaque alphanumeric",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds, comma-separated",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game",
+                "variables"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get Speedrun category detail",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/categories/{id}/records": {
+      "get": {
+        "description": "Returns complete native category records and context. Use game/category/level discovery IDs, not mutable abbreviations. Metadata embeds preserve their native wrappers; account/profile embeds are excluded. Records count places and preserve ties, empty boards and native pagination. Variable resources return every applicable value and its source scope.",
+        "operationId": "speedrun-category-records",
+        "parameters": [
+          {
+            "description": "Native category ID, opaque alphanumeric",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds, comma-separated",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game",
+                "category",
+                "level",
+                "platforms",
+                "regions",
+                "variables"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          },
+          {
+            "description": "Top places, not runs; API budget 1–200; native default 3",
+            "in": "query",
+            "name": "top",
+            "type": "integer"
+          },
+          {
+            "description": "Omit empty boards when true; explicit false is retained",
+            "in": "query",
+            "name": "skip_empty",
+            "type": "boolean"
+          },
+          {
+            "description": "Native page size 1–200",
+            "in": "query",
+            "name": "max",
+            "type": "integer"
+          },
+          {
+            "description": "Native offset, nonnegative",
+            "in": "query",
+            "name": "offset",
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get Speedrun category records",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/categories/{id}/variables": {
+      "get": {
+        "description": "Returns complete native category variables and context. Use game/category/level discovery IDs, not mutable abbreviations. Metadata embeds preserve their native wrappers; account/profile embeds are excluded. Records count places and preserve ties, empty boards and native pagination. Variable resources return every applicable value and its source scope.",
+        "operationId": "speedrun-category-variables",
+        "parameters": [
+          {
+            "description": "Native category ID, opaque alphanumeric",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds, comma-separated",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          },
+          {
+            "description": "Native contextual order",
+            "enum": [
+              "name",
+              "mandatory",
+              "user-defined",
+              "pos"
+            ],
+            "in": "query",
+            "name": "orderby",
+            "type": "string"
+          },
+          {
+            "description": "Native order direction",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "in": "query",
+            "name": "direction",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get Speedrun category variables",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/games": {
+      "get": {
+        "description": "Reads anonymous Speedrun.com v1 metadata and preserves native opaque identifiers, run context and pagination. Source attribution: Speedrun.com.",
+        "operationId": "speedrun-games",
+        "parameters": [
+          {
+            "description": "Native game name search",
+            "in": "query",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "description": "Platform ID from the platforms catalog",
+            "in": "query",
+            "name": "platform",
+            "type": "string"
+          },
+          {
+            "description": "Region ID from the regions catalog",
+            "in": "query",
+            "name": "region",
+            "type": "string"
+          },
+          {
+            "description": "Game-type ID from the gametypes catalog",
+            "in": "query",
+            "name": "gametype",
+            "type": "string"
+          },
+          {
+            "description": "Native page size1–200, or1–1000 with _bulk=true",
+            "in": "query",
+            "name": "max",
+            "type": "integer"
+          },
+          {
+            "description": "Native zero-based result offset",
+            "in": "query",
+            "name": "offset",
+            "type": "integer"
+          },
+          {
+            "description": "Exact native abbreviation",
+            "in": "query",
+            "name": "abbreviation",
+            "type": "string"
+          },
+          {
+            "description": "Native release year, including0 for unknown",
+            "in": "query",
+            "name": "released",
+            "type": "integer"
+          },
+          {
+            "description": "Native genre ID from catalog",
+            "in": "query",
+            "name": "genre",
+            "type": "string"
+          },
+          {
+            "description": "Native engine ID from catalog",
+            "in": "query",
+            "name": "engine",
+            "type": "string"
+          },
+          {
+            "description": "Native developer ID from catalog",
+            "in": "query",
+            "name": "developer",
+            "type": "string"
+          },
+          {
+            "description": "Native publisher ID from catalog",
+            "in": "query",
+            "name": "publisher",
+            "type": "string"
+          },
+          {
+            "description": "Native game order; similarity requires name",
+            "enum": [
+              "name.int",
+              "name.jap",
+              "abbreviation",
+              "released",
+              "created",
+              "similarity"
+            ],
+            "in": "query",
+            "name": "orderby",
+            "type": "string"
+          },
+          {
+            "description": "Native order direction",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "in": "query",
+            "name": "direction",
+            "type": "string"
+          },
+          {
+            "description": "Native compact page mode, max up to1000; disables embeds",
+            "in": "query",
+            "name": "_bulk",
+            "type": "boolean"
+          },
+          {
+            "description": "Legacy inclusion: true only typed games, false only untyped; omission includes both",
+            "in": "query",
+            "name": "romhack",
+            "type": "boolean"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds",
+            "in": "query",
+            "items": {
+              "enum": [
+                "categories",
+                "levels",
+                "variables",
+                "platforms",
+                "regions",
+                "gametypes",
+                "genres",
+                "engines",
+                "developers",
+                "publishers"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Search Speedrun.com games",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/games/{id}": {
+      "get": {
+        "description": "Returns complete native game detail and context. Use game/category/level discovery IDs, not mutable abbreviations. Metadata embeds preserve their native wrappers; account/profile embeds are excluded. Records count places and preserve ties, empty boards and native pagination. Variable resources return every applicable value and its source scope.",
+        "operationId": "speedrun-game-detail",
+        "parameters": [
+          {
+            "description": "Native game ID, opaque alphanumeric",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds, comma-separated",
+            "in": "query",
+            "items": {
+              "enum": [
+                "categories",
+                "levels",
+                "variables",
+                "platforms",
+                "regions",
+                "gametypes",
+                "genres",
+                "engines",
+                "developers",
+                "publishers"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get Speedrun game detail",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/games/{id}/categories": {
+      "get": {
+        "description": "Reads anonymous Speedrun.com v1 metadata and preserves native opaque identifiers, run context and pagination. Source attribution: Speedrun.com.",
+        "operationId": "speedrun-categories",
+        "parameters": [
+          {
+            "description": "Native opaque alphanumeric game ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Source miscellaneous selector; explicit false preserved",
+            "in": "query",
+            "name": "miscellaneous",
+            "type": "boolean"
+          },
+          {
+            "description": "Native category order",
+            "enum": [
+              "name",
+              "miscellaneous",
+              "pos"
+            ],
+            "in": "query",
+            "name": "orderby",
+            "type": "string"
+          },
+          {
+            "description": "Native order direction",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "in": "query",
+            "name": "direction",
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Metadata embeds",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game",
+                "variables"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get native game categories",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/games/{id}/levels": {
+      "get": {
+        "description": "Reads anonymous Speedrun.com v1 metadata and preserves native opaque identifiers, run context and pagination. Source attribution: Speedrun.com.",
+        "operationId": "speedrun-levels",
+        "parameters": [
+          {
+            "description": "Native opaque alphanumeric game ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Native level order",
+            "enum": [
+              "name",
+              "pos"
+            ],
+            "in": "query",
+            "name": "orderby",
+            "type": "string"
+          },
+          {
+            "description": "Native order direction",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "in": "query",
+            "name": "direction",
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Metadata embeds",
+            "in": "query",
+            "items": {
+              "enum": [
+                "categories",
+                "variables"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get native game levels",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/games/{id}/records": {
+      "get": {
+        "description": "Reads anonymous Speedrun.com v1 metadata and preserves native opaque identifiers, run context and pagination. Source attribution: Speedrun.com.",
+        "operationId": "speedrun-records",
+        "parameters": [
+          {
+            "description": "Native opaque alphanumeric game ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Native page size from 1 to 200",
+            "in": "query",
+            "name": "max",
+            "type": "integer"
+          },
+          {
+            "description": "Native zero-based result offset",
+            "in": "query",
+            "name": "offset",
+            "type": "integer"
+          },
+          {
+            "default": 1,
+            "description": "Top places, API budget1–200; compatibility default1",
+            "in": "query",
+            "name": "top",
+            "type": "integer"
+          },
+          {
+            "description": "Omit empty boards when true; explicit false preserved",
+            "in": "query",
+            "name": "skip_empty",
+            "type": "boolean"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Metadata embeds",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game",
+                "category",
+                "level",
+                "platforms",
+                "regions",
+                "variables"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get native top-one game record boards",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/games/{id}/variables": {
+      "get": {
+        "description": "Reads anonymous Speedrun.com v1 metadata and preserves native opaque identifiers, run context and pagination. Source attribution: Speedrun.com.",
+        "operationId": "speedrun-variables",
+        "parameters": [
+          {
+            "description": "Native opaque alphanumeric game ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Native variable order",
+            "enum": [
+              "name",
+              "mandatory",
+              "user-defined",
+              "pos"
+            ],
+            "in": "query",
+            "name": "orderby",
+            "type": "string"
+          },
+          {
+            "description": "Native order direction",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "in": "query",
+            "name": "direction",
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Metadata embed",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get native game variable definitions",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/leaderboards/{game}/category/{category}": {
+      "get": {
+        "description": "Returns native places, tied runs and game/category/level context. top counts places, not runs. IDs come from game/category/level discovery; platform/region use catalog discovery. Game variables expose value IDs and scope; requested variables are checked against this board's native applicable-variable embedding. No local ranking or synthetic pagination is performed.",
+        "operationId": "speedrun-game-leaderboard",
+        "parameters": [
+          {
+            "description": "Native game ID",
+            "in": "path",
+            "name": "game",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Native category ID appropriate to this board",
+            "in": "path",
+            "name": "category",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game",
+                "category",
+                "level",
+                "platforms",
+                "regions",
+                "variables"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          },
+          {
+            "default": 1,
+            "description": "Top places, 1–200; API response-budget limit, ties can return more runs",
+            "in": "query",
+            "name": "top",
+            "type": "integer"
+          },
+          {
+            "description": "Native platform ID from catalogs",
+            "in": "query",
+            "name": "platform",
+            "type": "string"
+          },
+          {
+            "description": "Native region ID from catalogs",
+            "in": "query",
+            "name": "region",
+            "type": "string"
+          },
+          {
+            "description": "Omit for both; true for emulators, false for real devices",
+            "in": "query",
+            "name": "emulators",
+            "type": "boolean"
+          },
+          {
+            "description": "Require a video when true; omission uses source default",
+            "in": "query",
+            "name": "video_only",
+            "type": "boolean"
+          },
+          {
+            "description": "Native timing method; omission uses source default",
+            "enum": [
+              "realtime",
+              "realtime_noloads",
+              "ingame"
+            ],
+            "in": "query",
+            "name": "timing",
+            "type": "string"
+          },
+          {
+            "description": "Run date cutoff YYYY-MM-DD",
+            "in": "query",
+            "name": "date",
+            "type": "string"
+          },
+          {
+            "description": "JSON object mapping native variable IDs to value IDs",
+            "in": "query",
+            "name": "variables",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get a Speedrun full-game leaderboard",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/leaderboards/{game}/level/{level}/{category}": {
+      "get": {
+        "description": "Returns native places, tied runs and game/category/level context. top counts places, not runs. IDs come from game/category/level discovery; platform/region use catalog discovery. Game variables expose value IDs and scope; requested variables are checked against this board's native applicable-variable embedding. No local ranking or synthetic pagination is performed.",
+        "operationId": "speedrun-level-leaderboard",
+        "parameters": [
+          {
+            "description": "Native game ID",
+            "in": "path",
+            "name": "game",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Native category ID appropriate to this board",
+            "in": "path",
+            "name": "category",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Native level ID from game level discovery",
+            "in": "path",
+            "name": "level",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game",
+                "category",
+                "level",
+                "platforms",
+                "regions",
+                "variables"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          },
+          {
+            "default": 1,
+            "description": "Top places, 1–200; API response-budget limit, ties can return more runs",
+            "in": "query",
+            "name": "top",
+            "type": "integer"
+          },
+          {
+            "description": "Native platform ID from catalogs",
+            "in": "query",
+            "name": "platform",
+            "type": "string"
+          },
+          {
+            "description": "Native region ID from catalogs",
+            "in": "query",
+            "name": "region",
+            "type": "string"
+          },
+          {
+            "description": "Omit for both; true for emulators, false for real devices",
+            "in": "query",
+            "name": "emulators",
+            "type": "boolean"
+          },
+          {
+            "description": "Require a video when true; omission uses source default",
+            "in": "query",
+            "name": "video_only",
+            "type": "boolean"
+          },
+          {
+            "description": "Native timing method; omission uses source default",
+            "enum": [
+              "realtime",
+              "realtime_noloads",
+              "ingame"
+            ],
+            "in": "query",
+            "name": "timing",
+            "type": "string"
+          },
+          {
+            "description": "Run date cutoff YYYY-MM-DD",
+            "in": "query",
+            "name": "date",
+            "type": "string"
+          },
+          {
+            "description": "JSON object mapping native variable IDs to value IDs",
+            "in": "query",
+            "name": "variables",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get a Speedrun individual-level leaderboard",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/levels/{id}": {
+      "get": {
+        "description": "Returns complete native level detail and context. Use game/category/level discovery IDs, not mutable abbreviations. Metadata embeds preserve their native wrappers; account/profile embeds are excluded. Records count places and preserve ties, empty boards and native pagination. Variable resources return every applicable value and its source scope.",
+        "operationId": "speedrun-level-detail",
+        "parameters": [
+          {
+            "description": "Native level ID, opaque alphanumeric",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds, comma-separated",
+            "in": "query",
+            "items": {
+              "enum": [
+                "categories",
+                "variables"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get Speedrun level detail",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/levels/{id}/categories": {
+      "get": {
+        "description": "Returns complete native level categories and context. Use game/category/level discovery IDs, not mutable abbreviations. Metadata embeds preserve their native wrappers; account/profile embeds are excluded. Records count places and preserve ties, empty boards and native pagination. Variable resources return every applicable value and its source scope.",
+        "operationId": "speedrun-level-categories",
+        "parameters": [
+          {
+            "description": "Native level ID, opaque alphanumeric",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds, comma-separated",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game",
+                "variables"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          },
+          {
+            "description": "Native contextual order",
+            "enum": [
+              "name",
+              "miscellaneous",
+              "pos"
+            ],
+            "in": "query",
+            "name": "orderby",
+            "type": "string"
+          },
+          {
+            "description": "Native order direction",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "in": "query",
+            "name": "direction",
+            "type": "string"
+          },
+          {
+            "description": "Select source miscellaneous flag, preserving explicit false",
+            "in": "query",
+            "name": "miscellaneous",
+            "type": "boolean"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get Speedrun level categories",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/levels/{id}/records": {
+      "get": {
+        "description": "Returns complete native level records and context. Use game/category/level discovery IDs, not mutable abbreviations. Metadata embeds preserve their native wrappers; account/profile embeds are excluded. Records count places and preserve ties, empty boards and native pagination. Variable resources return every applicable value and its source scope.",
+        "operationId": "speedrun-level-records",
+        "parameters": [
+          {
+            "description": "Native level ID, opaque alphanumeric",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds, comma-separated",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game",
+                "category",
+                "level",
+                "platforms",
+                "regions",
+                "variables"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          },
+          {
+            "description": "Top places, not runs; API budget 1–200; native default 3",
+            "in": "query",
+            "name": "top",
+            "type": "integer"
+          },
+          {
+            "description": "Omit empty boards when true; explicit false is retained",
+            "in": "query",
+            "name": "skip_empty",
+            "type": "boolean"
+          },
+          {
+            "description": "Native page size 1–200",
+            "in": "query",
+            "name": "max",
+            "type": "integer"
+          },
+          {
+            "description": "Native offset, nonnegative",
+            "in": "query",
+            "name": "offset",
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get Speedrun level records",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/levels/{id}/variables": {
+      "get": {
+        "description": "Returns complete native level variables and context. Use game/category/level discovery IDs, not mutable abbreviations. Metadata embeds preserve their native wrappers; account/profile embeds are excluded. Records count places and preserve ties, empty boards and native pagination. Variable resources return every applicable value and its source scope.",
+        "operationId": "speedrun-level-variables",
+        "parameters": [
+          {
+            "description": "Native level ID, opaque alphanumeric",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds, comma-separated",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          },
+          {
+            "description": "Native contextual order",
+            "enum": [
+              "name",
+              "mandatory",
+              "user-defined",
+              "pos"
+            ],
+            "in": "query",
+            "name": "orderby",
+            "type": "string"
+          },
+          {
+            "description": "Native order direction",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "in": "query",
+            "name": "direction",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Get Speedrun level variables",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/options": {
+      "get": {
+        "description": "Lists supported metadata embeds, contextual ordering directions and global timing method names by resource path. Game detail supplies per-game timing support. No upstream collection or account request is made.",
+        "operationId": "speedrun-resource-options",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.OptionsResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Discover Speedrun contextual resource options",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/runs": {
+      "get": {
+        "description": "Reads one native /runs page, preserving native attempts, statuses, timings, attribution references, selected game metadata and pagination. A run need not be a current leaderboard record. Entity discovery and every-row membership checks prevent ignored filters from returning unrelated runs. Freeform comments/reviewer/video text, split content and embedded rules/community/media fields are excluded. Account-scoped user/guest/examiner selectors and player/profile embeds are not exposed. No local ranking, collection loop or synthetic cursor is added.",
+        "operationId": "speedrun-runs",
+        "parameters": [
+          {
+            "description": "Native game ID from games discovery",
+            "in": "query",
+            "name": "game",
+            "type": "string"
+          },
+          {
+            "description": "Native category ID from category discovery",
+            "in": "query",
+            "name": "category",
+            "type": "string"
+          },
+          {
+            "description": "Native level ID from level discovery",
+            "in": "query",
+            "name": "level",
+            "type": "string"
+          },
+          {
+            "description": "Native platform ID from platforms catalog",
+            "in": "query",
+            "name": "platform",
+            "type": "string"
+          },
+          {
+            "description": "Native region ID from regions catalog",
+            "in": "query",
+            "name": "region",
+            "type": "string"
+          },
+          {
+            "description": "Omit for both; explicit true or false selects the native device kind",
+            "in": "query",
+            "name": "emulated",
+            "type": "boolean"
+          },
+          {
+            "description": "Native verification status",
+            "enum": [
+              "new",
+              "verified",
+              "rejected"
+            ],
+            "in": "query",
+            "name": "status",
+            "type": "string"
+          },
+          {
+            "description": "Native ordering",
+            "enum": [
+              "game",
+              "category",
+              "level",
+              "platform",
+              "region",
+              "emulated",
+              "date",
+              "submitted",
+              "status",
+              "verify-date"
+            ],
+            "in": "query",
+            "name": "orderby",
+            "type": "string"
+          },
+          {
+            "description": "Native ordering direction",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "in": "query",
+            "name": "direction",
+            "type": "string"
+          },
+          {
+            "description": "Native page size, 1..200",
+            "in": "query",
+            "maximum": 200,
+            "minimum": 1,
+            "name": "max",
+            "type": "integer"
+          },
+          {
+            "description": "Native zero-based offset",
+            "in": "query",
+            "minimum": 0,
+            "name": "offset",
+            "type": "integer"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds, comma-separated",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game",
+                "category",
+                "level",
+                "platform",
+                "region"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "List native Speedrun run metadata",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/runs/options": {
+      "get": {
+        "description": "Lists all supported native run status/order/direction and metadata-embed values, plus the existing game/category/level/platform/region discovery paths. Takes no input and makes no upstream request.",
+        "operationId": "speedrun-runs-options",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.RunOptionsResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Discover Speedrun run query options",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    },
+    "/speedrun/runs/{id}": {
+      "get": {
+        "description": "Returns one native run's game/category/level identity, timestamps, timing values, status and attribution references. Native nulls and metadata embed wrappers remain intact. Freeform comments/reviewer/video text, split content and embedded rules/community/media fields are excluded; media and account/profile resources are not fetched. A native404 is not an empty success.",
+        "operationId": "speedrun-run",
+        "parameters": [
+          {
+            "description": "Opaque native run ID from runs, records or leaderboards",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "collectionFormat": "csv",
+            "description": "Native metadata embeds, comma-separated",
+            "in": "query",
+            "items": {
+              "enum": [
+                "game",
+                "category",
+                "level",
+                "platform",
+                "region"
+              ],
+              "type": "string"
+            },
+            "name": "embed",
+            "type": "array"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/speedrun.ResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Read native Speedrun run metadata",
+        "tags": [
+          "speedrun"
+        ]
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "in": "header",
+      "name": "x-api-key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "speedrun"
+    }
+  ]
+}

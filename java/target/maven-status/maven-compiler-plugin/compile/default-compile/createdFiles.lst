@@ -1,0 +1,4 @@
+net/crawlora/speedrun/Client.class
+net/crawlora/speedrun/Operation.class
+net/crawlora/speedrun/Param.class
+net/crawlora/speedrun/CrawloraException.class

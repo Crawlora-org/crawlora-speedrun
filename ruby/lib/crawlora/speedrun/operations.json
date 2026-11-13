@@ -1,0 +1,2054 @@
+{
+  "platform": "speedrun",
+  "operationCount": 20,
+  "operationIds": [
+    "speedrun-catalog",
+    "speedrun-categories",
+    "speedrun-category-detail",
+    "speedrun-category-records",
+    "speedrun-category-variables",
+    "speedrun-game-detail",
+    "speedrun-game-leaderboard",
+    "speedrun-games",
+    "speedrun-level-categories",
+    "speedrun-level-detail",
+    "speedrun-level-leaderboard",
+    "speedrun-level-records",
+    "speedrun-level-variables",
+    "speedrun-levels",
+    "speedrun-records",
+    "speedrun-resource-options",
+    "speedrun-run",
+    "speedrun-runs",
+    "speedrun-runs-options",
+    "speedrun-variables"
+  ],
+  "methods": {
+    "catalog": "speedrun-catalog",
+    "category_detail": "speedrun-category-detail",
+    "category_records": "speedrun-category-records",
+    "category_variables": "speedrun-category-variables",
+    "games": "speedrun-games",
+    "game_detail": "speedrun-game-detail",
+    "categories": "speedrun-categories",
+    "levels": "speedrun-levels",
+    "records": "speedrun-records",
+    "variables": "speedrun-variables",
+    "game_leaderboard": "speedrun-game-leaderboard",
+    "level_leaderboard": "speedrun-level-leaderboard",
+    "level_detail": "speedrun-level-detail",
+    "level_categories": "speedrun-level-categories",
+    "level_records": "speedrun-level-records",
+    "level_variables": "speedrun-level-variables",
+    "resource_options": "speedrun-resource-options",
+    "runs": "speedrun-runs",
+    "runs_options": "speedrun-runs-options",
+    "run": "speedrun-run"
+  },
+  "operations": {
+    "speedrun-catalog": {
+      "id": "speedrun-catalog",
+      "method": "GET",
+      "path": "/speedrun/catalogs/{kind}",
+      "pathParams": [
+        "kind"
+      ],
+      "queryParams": [
+        {
+          "name": "max",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "type": "integer"
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native metadata collection",
+          "enum": [
+            "platforms",
+            "regions",
+            "gametypes",
+            "developers",
+            "publishers",
+            "genres",
+            "engines"
+          ],
+          "in": "path",
+          "name": "kind",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Native page size from 1 to 200",
+          "in": "query",
+          "name": "max",
+          "type": "integer"
+        },
+        {
+          "description": "Native zero-based result offset",
+          "in": "query",
+          "name": "offset",
+          "type": "integer"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-category-detail": {
+      "id": "speedrun-category-detail",
+      "method": "GET",
+      "path": "/speedrun/categories/{id}",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game",
+            "variables"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native category ID, opaque alphanumeric",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds, comma-separated",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game",
+              "variables"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-category-records": {
+      "id": "speedrun-category-records",
+      "method": "GET",
+      "path": "/speedrun/categories/{id}/records",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game",
+            "category",
+            "level",
+            "platforms",
+            "regions",
+            "variables"
+          ]
+        },
+        {
+          "name": "top",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "skip_empty",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "max",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "type": "integer"
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native category ID, opaque alphanumeric",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds, comma-separated",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game",
+              "category",
+              "level",
+              "platforms",
+              "regions",
+              "variables"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        },
+        {
+          "description": "Top places, not runs; API budget 1–200; native default 3",
+          "in": "query",
+          "name": "top",
+          "type": "integer"
+        },
+        {
+          "description": "Omit empty boards when true; explicit false is retained",
+          "in": "query",
+          "name": "skip_empty",
+          "type": "boolean"
+        },
+        {
+          "description": "Native page size 1–200",
+          "in": "query",
+          "name": "max",
+          "type": "integer"
+        },
+        {
+          "description": "Native offset, nonnegative",
+          "in": "query",
+          "name": "offset",
+          "type": "integer"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-category-variables": {
+      "id": "speedrun-category-variables",
+      "method": "GET",
+      "path": "/speedrun/categories/{id}/variables",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game"
+          ]
+        },
+        {
+          "name": "orderby",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "name",
+            "mandatory",
+            "user-defined",
+            "pos"
+          ]
+        },
+        {
+          "name": "direction",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native category ID, opaque alphanumeric",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds, comma-separated",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        },
+        {
+          "description": "Native contextual order",
+          "enum": [
+            "name",
+            "mandatory",
+            "user-defined",
+            "pos"
+          ],
+          "in": "query",
+          "name": "orderby",
+          "type": "string"
+        },
+        {
+          "description": "Native order direction",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "in": "query",
+          "name": "direction",
+          "type": "string"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-games": {
+      "id": "speedrun-games",
+      "method": "GET",
+      "path": "/speedrun/games",
+      "pathParams": [],
+      "queryParams": [
+        {
+          "name": "name",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "platform",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "region",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "gametype",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "max",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "abbreviation",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "released",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "genre",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "engine",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "developer",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "publisher",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "orderby",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "name.int",
+            "name.jap",
+            "abbreviation",
+            "released",
+            "created",
+            "similarity"
+          ]
+        },
+        {
+          "name": "direction",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ]
+        },
+        {
+          "name": "_bulk",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "romhack",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "categories",
+            "levels",
+            "variables",
+            "platforms",
+            "regions",
+            "gametypes",
+            "genres",
+            "engines",
+            "developers",
+            "publishers"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native game name search",
+          "in": "query",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "description": "Platform ID from the platforms catalog",
+          "in": "query",
+          "name": "platform",
+          "type": "string"
+        },
+        {
+          "description": "Region ID from the regions catalog",
+          "in": "query",
+          "name": "region",
+          "type": "string"
+        },
+        {
+          "description": "Game-type ID from the gametypes catalog",
+          "in": "query",
+          "name": "gametype",
+          "type": "string"
+        },
+        {
+          "description": "Native page size1–200, or1–1000 with _bulk=true",
+          "in": "query",
+          "name": "max",
+          "type": "integer"
+        },
+        {
+          "description": "Native zero-based result offset",
+          "in": "query",
+          "name": "offset",
+          "type": "integer"
+        },
+        {
+          "description": "Exact native abbreviation",
+          "in": "query",
+          "name": "abbreviation",
+          "type": "string"
+        },
+        {
+          "description": "Native release year, including0 for unknown",
+          "in": "query",
+          "name": "released",
+          "type": "integer"
+        },
+        {
+          "description": "Native genre ID from catalog",
+          "in": "query",
+          "name": "genre",
+          "type": "string"
+        },
+        {
+          "description": "Native engine ID from catalog",
+          "in": "query",
+          "name": "engine",
+          "type": "string"
+        },
+        {
+          "description": "Native developer ID from catalog",
+          "in": "query",
+          "name": "developer",
+          "type": "string"
+        },
+        {
+          "description": "Native publisher ID from catalog",
+          "in": "query",
+          "name": "publisher",
+          "type": "string"
+        },
+        {
+          "description": "Native game order; similarity requires name",
+          "enum": [
+            "name.int",
+            "name.jap",
+            "abbreviation",
+            "released",
+            "created",
+            "similarity"
+          ],
+          "in": "query",
+          "name": "orderby",
+          "type": "string"
+        },
+        {
+          "description": "Native order direction",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "in": "query",
+          "name": "direction",
+          "type": "string"
+        },
+        {
+          "description": "Native compact page mode, max up to1000; disables embeds",
+          "in": "query",
+          "name": "_bulk",
+          "type": "boolean"
+        },
+        {
+          "description": "Legacy inclusion: true only typed games, false only untyped; omission includes both",
+          "in": "query",
+          "name": "romhack",
+          "type": "boolean"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds",
+          "in": "query",
+          "items": {
+            "enum": [
+              "categories",
+              "levels",
+              "variables",
+              "platforms",
+              "regions",
+              "gametypes",
+              "genres",
+              "engines",
+              "developers",
+              "publishers"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-game-detail": {
+      "id": "speedrun-game-detail",
+      "method": "GET",
+      "path": "/speedrun/games/{id}",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "categories",
+            "levels",
+            "variables",
+            "platforms",
+            "regions",
+            "gametypes",
+            "genres",
+            "engines",
+            "developers",
+            "publishers"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native game ID, opaque alphanumeric",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds, comma-separated",
+          "in": "query",
+          "items": {
+            "enum": [
+              "categories",
+              "levels",
+              "variables",
+              "platforms",
+              "regions",
+              "gametypes",
+              "genres",
+              "engines",
+              "developers",
+              "publishers"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-categories": {
+      "id": "speedrun-categories",
+      "method": "GET",
+      "path": "/speedrun/games/{id}/categories",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "miscellaneous",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "orderby",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "name",
+            "miscellaneous",
+            "pos"
+          ]
+        },
+        {
+          "name": "direction",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ]
+        },
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game",
+            "variables"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native opaque alphanumeric game ID",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Source miscellaneous selector; explicit false preserved",
+          "in": "query",
+          "name": "miscellaneous",
+          "type": "boolean"
+        },
+        {
+          "description": "Native category order",
+          "enum": [
+            "name",
+            "miscellaneous",
+            "pos"
+          ],
+          "in": "query",
+          "name": "orderby",
+          "type": "string"
+        },
+        {
+          "description": "Native order direction",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "in": "query",
+          "name": "direction",
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Metadata embeds",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game",
+              "variables"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-levels": {
+      "id": "speedrun-levels",
+      "method": "GET",
+      "path": "/speedrun/games/{id}/levels",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "orderby",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "name",
+            "pos"
+          ]
+        },
+        {
+          "name": "direction",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ]
+        },
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "categories",
+            "variables"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native opaque alphanumeric game ID",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Native level order",
+          "enum": [
+            "name",
+            "pos"
+          ],
+          "in": "query",
+          "name": "orderby",
+          "type": "string"
+        },
+        {
+          "description": "Native order direction",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "in": "query",
+          "name": "direction",
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Metadata embeds",
+          "in": "query",
+          "items": {
+            "enum": [
+              "categories",
+              "variables"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-records": {
+      "id": "speedrun-records",
+      "method": "GET",
+      "path": "/speedrun/games/{id}/records",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "max",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "top",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "skip_empty",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game",
+            "category",
+            "level",
+            "platforms",
+            "regions",
+            "variables"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native opaque alphanumeric game ID",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Native page size from 1 to 200",
+          "in": "query",
+          "name": "max",
+          "type": "integer"
+        },
+        {
+          "description": "Native zero-based result offset",
+          "in": "query",
+          "name": "offset",
+          "type": "integer"
+        },
+        {
+          "default": 1,
+          "description": "Top places, API budget1–200; compatibility default1",
+          "in": "query",
+          "name": "top",
+          "type": "integer"
+        },
+        {
+          "description": "Omit empty boards when true; explicit false preserved",
+          "in": "query",
+          "name": "skip_empty",
+          "type": "boolean"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Metadata embeds",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game",
+              "category",
+              "level",
+              "platforms",
+              "regions",
+              "variables"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-variables": {
+      "id": "speedrun-variables",
+      "method": "GET",
+      "path": "/speedrun/games/{id}/variables",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "orderby",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "name",
+            "mandatory",
+            "user-defined",
+            "pos"
+          ]
+        },
+        {
+          "name": "direction",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ]
+        },
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native opaque alphanumeric game ID",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Native variable order",
+          "enum": [
+            "name",
+            "mandatory",
+            "user-defined",
+            "pos"
+          ],
+          "in": "query",
+          "name": "orderby",
+          "type": "string"
+        },
+        {
+          "description": "Native order direction",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "in": "query",
+          "name": "direction",
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Metadata embed",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-game-leaderboard": {
+      "id": "speedrun-game-leaderboard",
+      "method": "GET",
+      "path": "/speedrun/leaderboards/{game}/category/{category}",
+      "pathParams": [
+        "game",
+        "category"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game",
+            "category",
+            "level",
+            "platforms",
+            "regions",
+            "variables"
+          ]
+        },
+        {
+          "name": "top",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "platform",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "region",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "emulators",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "video_only",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "timing",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "realtime",
+            "realtime_noloads",
+            "ingame"
+          ]
+        },
+        {
+          "name": "date",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "variables",
+          "in": "query",
+          "type": "string"
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native game ID",
+          "in": "path",
+          "name": "game",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Native category ID appropriate to this board",
+          "in": "path",
+          "name": "category",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game",
+              "category",
+              "level",
+              "platforms",
+              "regions",
+              "variables"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        },
+        {
+          "default": 1,
+          "description": "Top places, 1–200; API response-budget limit, ties can return more runs",
+          "in": "query",
+          "name": "top",
+          "type": "integer"
+        },
+        {
+          "description": "Native platform ID from catalogs",
+          "in": "query",
+          "name": "platform",
+          "type": "string"
+        },
+        {
+          "description": "Native region ID from catalogs",
+          "in": "query",
+          "name": "region",
+          "type": "string"
+        },
+        {
+          "description": "Omit for both; true for emulators, false for real devices",
+          "in": "query",
+          "name": "emulators",
+          "type": "boolean"
+        },
+        {
+          "description": "Require a video when true; omission uses source default",
+          "in": "query",
+          "name": "video_only",
+          "type": "boolean"
+        },
+        {
+          "description": "Native timing method; omission uses source default",
+          "enum": [
+            "realtime",
+            "realtime_noloads",
+            "ingame"
+          ],
+          "in": "query",
+          "name": "timing",
+          "type": "string"
+        },
+        {
+          "description": "Run date cutoff YYYY-MM-DD",
+          "in": "query",
+          "name": "date",
+          "type": "string"
+        },
+        {
+          "description": "JSON object mapping native variable IDs to value IDs",
+          "in": "query",
+          "name": "variables",
+          "type": "string"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-level-leaderboard": {
+      "id": "speedrun-level-leaderboard",
+      "method": "GET",
+      "path": "/speedrun/leaderboards/{game}/level/{level}/{category}",
+      "pathParams": [
+        "game",
+        "category",
+        "level"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game",
+            "category",
+            "level",
+            "platforms",
+            "regions",
+            "variables"
+          ]
+        },
+        {
+          "name": "top",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "platform",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "region",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "emulators",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "video_only",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "timing",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "realtime",
+            "realtime_noloads",
+            "ingame"
+          ]
+        },
+        {
+          "name": "date",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "variables",
+          "in": "query",
+          "type": "string"
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native game ID",
+          "in": "path",
+          "name": "game",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Native category ID appropriate to this board",
+          "in": "path",
+          "name": "category",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Native level ID from game level discovery",
+          "in": "path",
+          "name": "level",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game",
+              "category",
+              "level",
+              "platforms",
+              "regions",
+              "variables"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        },
+        {
+          "default": 1,
+          "description": "Top places, 1–200; API response-budget limit, ties can return more runs",
+          "in": "query",
+          "name": "top",
+          "type": "integer"
+        },
+        {
+          "description": "Native platform ID from catalogs",
+          "in": "query",
+          "name": "platform",
+          "type": "string"
+        },
+        {
+          "description": "Native region ID from catalogs",
+          "in": "query",
+          "name": "region",
+          "type": "string"
+        },
+        {
+          "description": "Omit for both; true for emulators, false for real devices",
+          "in": "query",
+          "name": "emulators",
+          "type": "boolean"
+        },
+        {
+          "description": "Require a video when true; omission uses source default",
+          "in": "query",
+          "name": "video_only",
+          "type": "boolean"
+        },
+        {
+          "description": "Native timing method; omission uses source default",
+          "enum": [
+            "realtime",
+            "realtime_noloads",
+            "ingame"
+          ],
+          "in": "query",
+          "name": "timing",
+          "type": "string"
+        },
+        {
+          "description": "Run date cutoff YYYY-MM-DD",
+          "in": "query",
+          "name": "date",
+          "type": "string"
+        },
+        {
+          "description": "JSON object mapping native variable IDs to value IDs",
+          "in": "query",
+          "name": "variables",
+          "type": "string"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-level-detail": {
+      "id": "speedrun-level-detail",
+      "method": "GET",
+      "path": "/speedrun/levels/{id}",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "categories",
+            "variables"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native level ID, opaque alphanumeric",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds, comma-separated",
+          "in": "query",
+          "items": {
+            "enum": [
+              "categories",
+              "variables"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-level-categories": {
+      "id": "speedrun-level-categories",
+      "method": "GET",
+      "path": "/speedrun/levels/{id}/categories",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game",
+            "variables"
+          ]
+        },
+        {
+          "name": "orderby",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "name",
+            "miscellaneous",
+            "pos"
+          ]
+        },
+        {
+          "name": "direction",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ]
+        },
+        {
+          "name": "miscellaneous",
+          "in": "query",
+          "type": "boolean"
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native level ID, opaque alphanumeric",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds, comma-separated",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game",
+              "variables"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        },
+        {
+          "description": "Native contextual order",
+          "enum": [
+            "name",
+            "miscellaneous",
+            "pos"
+          ],
+          "in": "query",
+          "name": "orderby",
+          "type": "string"
+        },
+        {
+          "description": "Native order direction",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "in": "query",
+          "name": "direction",
+          "type": "string"
+        },
+        {
+          "description": "Select source miscellaneous flag, preserving explicit false",
+          "in": "query",
+          "name": "miscellaneous",
+          "type": "boolean"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-level-records": {
+      "id": "speedrun-level-records",
+      "method": "GET",
+      "path": "/speedrun/levels/{id}/records",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game",
+            "category",
+            "level",
+            "platforms",
+            "regions",
+            "variables"
+          ]
+        },
+        {
+          "name": "top",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "skip_empty",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "max",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "type": "integer"
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native level ID, opaque alphanumeric",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds, comma-separated",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game",
+              "category",
+              "level",
+              "platforms",
+              "regions",
+              "variables"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        },
+        {
+          "description": "Top places, not runs; API budget 1–200; native default 3",
+          "in": "query",
+          "name": "top",
+          "type": "integer"
+        },
+        {
+          "description": "Omit empty boards when true; explicit false is retained",
+          "in": "query",
+          "name": "skip_empty",
+          "type": "boolean"
+        },
+        {
+          "description": "Native page size 1–200",
+          "in": "query",
+          "name": "max",
+          "type": "integer"
+        },
+        {
+          "description": "Native offset, nonnegative",
+          "in": "query",
+          "name": "offset",
+          "type": "integer"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-level-variables": {
+      "id": "speedrun-level-variables",
+      "method": "GET",
+      "path": "/speedrun/levels/{id}/variables",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game"
+          ]
+        },
+        {
+          "name": "orderby",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "name",
+            "mandatory",
+            "user-defined",
+            "pos"
+          ]
+        },
+        {
+          "name": "direction",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native level ID, opaque alphanumeric",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds, comma-separated",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        },
+        {
+          "description": "Native contextual order",
+          "enum": [
+            "name",
+            "mandatory",
+            "user-defined",
+            "pos"
+          ],
+          "in": "query",
+          "name": "orderby",
+          "type": "string"
+        },
+        {
+          "description": "Native order direction",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "in": "query",
+          "name": "direction",
+          "type": "string"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-resource-options": {
+      "id": "speedrun-resource-options",
+      "method": "GET",
+      "path": "/speedrun/options",
+      "pathParams": [],
+      "queryParams": [],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-runs": {
+      "id": "speedrun-runs",
+      "method": "GET",
+      "path": "/speedrun/runs",
+      "pathParams": [],
+      "queryParams": [
+        {
+          "name": "game",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "category",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "level",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "platform",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "region",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "emulated",
+          "in": "query",
+          "type": "boolean"
+        },
+        {
+          "name": "status",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "new",
+            "verified",
+            "rejected"
+          ]
+        },
+        {
+          "name": "orderby",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "game",
+            "category",
+            "level",
+            "platform",
+            "region",
+            "emulated",
+            "date",
+            "submitted",
+            "status",
+            "verify-date"
+          ]
+        },
+        {
+          "name": "direction",
+          "in": "query",
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ]
+        },
+        {
+          "name": "max",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "type": "integer"
+        },
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game",
+            "category",
+            "level",
+            "platform",
+            "region"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Native game ID from games discovery",
+          "in": "query",
+          "name": "game",
+          "type": "string"
+        },
+        {
+          "description": "Native category ID from category discovery",
+          "in": "query",
+          "name": "category",
+          "type": "string"
+        },
+        {
+          "description": "Native level ID from level discovery",
+          "in": "query",
+          "name": "level",
+          "type": "string"
+        },
+        {
+          "description": "Native platform ID from platforms catalog",
+          "in": "query",
+          "name": "platform",
+          "type": "string"
+        },
+        {
+          "description": "Native region ID from regions catalog",
+          "in": "query",
+          "name": "region",
+          "type": "string"
+        },
+        {
+          "description": "Omit for both; explicit true or false selects the native device kind",
+          "in": "query",
+          "name": "emulated",
+          "type": "boolean"
+        },
+        {
+          "description": "Native verification status",
+          "enum": [
+            "new",
+            "verified",
+            "rejected"
+          ],
+          "in": "query",
+          "name": "status",
+          "type": "string"
+        },
+        {
+          "description": "Native ordering",
+          "enum": [
+            "game",
+            "category",
+            "level",
+            "platform",
+            "region",
+            "emulated",
+            "date",
+            "submitted",
+            "status",
+            "verify-date"
+          ],
+          "in": "query",
+          "name": "orderby",
+          "type": "string"
+        },
+        {
+          "description": "Native ordering direction",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "in": "query",
+          "name": "direction",
+          "type": "string"
+        },
+        {
+          "description": "Native page size, 1..200",
+          "in": "query",
+          "maximum": 200,
+          "minimum": 1,
+          "name": "max",
+          "type": "integer"
+        },
+        {
+          "description": "Native zero-based offset",
+          "in": "query",
+          "minimum": 0,
+          "name": "offset",
+          "type": "integer"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds, comma-separated",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game",
+              "category",
+              "level",
+              "platform",
+              "region"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-runs-options": {
+      "id": "speedrun-runs-options",
+      "method": "GET",
+      "path": "/speedrun/runs/options",
+      "pathParams": [],
+      "queryParams": [],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "speedrun-run": {
+      "id": "speedrun-run",
+      "method": "GET",
+      "path": "/speedrun/runs/{id}",
+      "pathParams": [
+        "id"
+      ],
+      "queryParams": [
+        {
+          "name": "embed",
+          "in": "query",
+          "collectionFormat": "csv",
+          "type": "array",
+          "enum": [
+            "game",
+            "category",
+            "level",
+            "platform",
+            "region"
+          ]
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Opaque native run ID from runs, records or leaderboards",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "collectionFormat": "csv",
+          "description": "Native metadata embeds, comma-separated",
+          "in": "query",
+          "items": {
+            "enum": [
+              "game",
+              "category",
+              "level",
+              "platform",
+              "region"
+            ],
+            "type": "string"
+          },
+          "name": "embed",
+          "type": "array"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    }
+  }
+}
